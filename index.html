@@ -207,10 +207,14 @@ i{font-style:normal}
 }
 .joy {
   position: absolute !important;
+  left: 50% !important;
+  top: 51% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 50% !important; /* matches the size and centering of the idle face rig */
   height: auto !important;
   opacity: 0 !important;
   scale: 0.7 !important;
-  transition: opacity .09s, scale .34s var(--spring) !important;
+  transition: opacity .09s ease, scale .34s var(--spring) !important;
   pointer-events: none !important;
   z-index: 5 !important;
 }
