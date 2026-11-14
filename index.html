@@ -191,6 +191,34 @@ i{font-style:normal}
 }
 
 /* ---------- Bloob Squircle Bodies & Symmetrical Chibi Face System ---------- */
+
+/* Fix: Hide idle face during tear (.held/.hurt) to eliminate double mouth */
+.held .face-rig, .hurt .face-rig {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(0.6) !important;
+  transition: opacity .08s ease, transform .2s var(--spring) !important;
+}
+
+/* Fix: On hover (.glad), smoothly transition idle face into the joyful expression with the old mouth and happy eyes */
+.glad .face-rig {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(0.7) !important;
+  transition: opacity .09s ease, transform .2s var(--spring) !important;
+}
+.joy {
+  position: absolute !important;
+  height: auto !important;
+  opacity: 0 !important;
+  scale: 0.7 !important;
+  transition: opacity .09s, scale .34s var(--spring) !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}
+.glad .joy {
+  opacity: 1 !important;
+  scale: 1 !important;
+}
+
 .pop {
   position: absolute !important;
   left: 17% !important;
@@ -404,7 +432,7 @@ const rig = ({ body, eyes, mouth, joy }, tag = '') => `
         <path d="M 4,5 Q 12,13 20,5" fill="none" stroke="#151520" stroke-width="2.6" stroke-linecap="round"/>
       </svg>
     </div>
-  </div>`;
+  </div>${joy ? `<img class="joy" style="${boxOf(joy)}" src="${joy[3]}" alt="">` : ''}`;
 const blink = (list, times = 1) => { for (const e of list) e.animate([{ scale: '1 1' }, { scale: '1 .08' }, { scale: '1 1' }], { duration: 170, iterations: times, easing: 'cubic-bezier(.77,0,.175,1)' }); };
 pack.querySelector('.orb').insertAdjacentHTML('afterbegin', `<div class="shade" style="border-radius:30%;background:rgba(0,0,0,0.18);filter:blur(10px);"></div>` + rig(ART.sparkle, 'char-bloob') + ['ouch', 'drip'].map(k => { const a = ART.sparkle[k === 'drip' ? 'sweat' : k]; return `<img class="${k}" style="${boxOf(a)}" src="${a[3]}" alt="">`; }).join(''));
 // every picture is decoded up front and held on to, so a card has its art on the very first frame it exists
